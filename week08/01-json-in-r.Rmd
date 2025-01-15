@@ -15,7 +15,7 @@ library("tidyverse")
 Before we look at real-world examples, let us first study our own simple files. Specify the directory where the JSON files are stored:
 
 ```{r}
-current_dir <- "./data/"
+current_dir <- "/Users/karananeja/Desktop/LSE/MY472/lse-my472/week08/data/"
 ```
 
 Reading/parsing the first file into R:

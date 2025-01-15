@@ -9,6 +9,13 @@ These exercises discuss scraping unstructured data. We will use Wikipedia as an 
 ```{r}
 library(tidyverse)
 library(rvest)
+
+emma <- c(1,2,3,4)
+print(emma)
+
+list <- emma
+
+print(emma)
 ```
 
 ## 1. CSS selectors for single elements, multiple elements, and nested elements
@@ -25,7 +32,7 @@ __Scraping single elements__
 The first example will be to collect only a single element of the HTML code, i.e. here the caption of the second image. It is on the right hand side of the website and begins with "Noether grew up in ...". Inspect the caption with your browser, copy its CSS selector, and scrape the caption by completing the code below:
 
 ```{r}
-first_caption_element <- html_noether %>% html_elements(css = ________)
+first_caption_element <- html_noether %>% html_elements(css = "figcaption")
 first_caption_text <- first_caption_element %>% html_text() 
 first_caption_text
 ```
@@ -47,7 +54,7 @@ Lastly, let us study how we can define CSS selectors that more narrowly define t
 In our example here, imagine we wanted to scrape the captions of only the images on the left hand side of the page. When looking at the page's source code, can you define a CSS selector which achieves this (hint: if a class name contains a space, you can replace this space with a `.` in the CSS selector)?
 
 ```{r}
-all_lhs_caption_elements <- html_noether %>% html_elements(css = ________)
+all_lhs_caption_elements <- html_noether %>% html_elements(css = ".mw-halign-left")
 all_lhs_caption_texts <- all_lhs_caption_elements %>% html_text() 
 all_lhs_caption_texts
 ```
@@ -64,15 +71,15 @@ html_feynman <- read_html(url_feynman)
 Say we would like to collect some baseline information about the person. The box on the right hand side seems the natural starting point. Each item in this box has content in a cell on the left (e.g. "Alma mater") and on the right (e.g. "Massachusetts Institute of Technology (S.B.) Princeton University (PhD)"). Inspecting with the browser reveals that the left cell has a class name "infobox-label" and the right "infobox-data". Try to complete the following by adding the CSS selectors for these two class names. This allows to obtain all relevant label and data elements from the box in one go similarly to the selector which we defined before that could scrape all captions:
 
 ```{r}
-label_elements_feynman <- html_feynman %>% html_elements(css = ________)
-data_elements_feynman <- html_feynman %>% html_elements(css = ________)
+label_elements_feynman <- html_feynman %>% html_elements(css = ".infobox-label")
+data_elements_feynman <- html_feynman %>% html_elements(css = ".infobox-data")
 ```
 
 Next, extract the text from these elements:
 
 ```{r}
-labels_feynman <- label_elements_feynman %>% ________
-data_feynman <- data_elements_feynman %>% ________
+labels_feynman <- label_elements_feynman %>% html_text()
+data_feynman <- data_elements_feynman %>% html_text()
 ```
 
 Print the entry labels and values:
@@ -88,13 +95,13 @@ data_feynman[1:5]
 From these vectors, how would you access just the birth date information?
 
 ```{r}
-data_feynman[________]
+data_feynman[2]
 ```
 
 The title of his PhD thesis?
 
 ```{r}
-data_feynman[________]
+data_feynman[5]
 ```
 
 Notice there are some issues in some of the values, such as "Education" and "Known for". Use some regular expressions and `str_` functions to clean up the "Education" field. Hint: first inspect it and see if you can figure out a good way to delete all the code and keep all the text.
